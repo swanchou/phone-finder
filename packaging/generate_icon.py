@@ -76,7 +76,8 @@ def create_ico(png_data_list, ico_path):
     offset = 6 + 16 * len(images)
     entries = b''
     for i, (size, img) in enumerate(zip(sizes, images)):
-        entries += struct.pack('<BBBBHHII', size, size, 0, 0, 1, 32, len(img), offset)
+        bsize = size % 256
+        entries += struct.pack('<BBBBHHII', bsize, bsize, 0, 0, 1, 32, len(img), offset)
         offset += len(img)
 
     with open(ico_path, 'wb') as f:
